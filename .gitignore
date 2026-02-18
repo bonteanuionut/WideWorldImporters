@@ -5,6 +5,9 @@
 .env
 
 # Python-generated files
-outputs/
+outputs/*
 .pytest_cache
 **/__pychace__/
+*.py[oc]
+**/*.csv
+**/*.xlsx
