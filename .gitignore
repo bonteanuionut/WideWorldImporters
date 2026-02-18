@@ -7,4 +7,4 @@
 # Python-generated files
 outputs/
 .pytest_cache
-__pychace__/
+**/__pychace__/
