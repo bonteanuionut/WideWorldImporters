@@ -35,11 +35,11 @@ with purchase_orders_rank as (
 		sup_trans.SupplierID
 		,	sup.SupplierName
 		,	sup_trans.SupplierInvoiceNumber
-		,	sup_trans.TransactionDate
+		,	cast(sup_trans.TransactionDate as date) as TransactionDate
 		,	sup_trans.AmountExcludingTax
 		,	sup_trans.isFinalized
 		,	po.PurchaseOrderID
-		,	po.OrderDate
+		,	cast(po.OrderDate as date) as OrderDate
 		,	pol.PurchaseOrderLineID
 		,	pol.StockItemID
 		,	pol.Description
@@ -61,4 +61,4 @@ with purchase_orders_rank as (
 		and year(sup_trans.TransactionDate) = 2015--Transaction Year date filter: 2015
 )
 
-select count(*) from cte_final
+select * from cte_final

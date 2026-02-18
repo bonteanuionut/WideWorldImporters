@@ -18,5 +18,8 @@ conn = pyodbc.connect(
     f"PWD={password};"
 )
 
-df = pd.read_sql("SELECT * FROM [Purchasing].[PurchaseOrderLines]", conn)
-print(df)
+with open(r"src\sql_scripts\test.sql", "r") as f:
+    sql_script = f.read()
+report = pd.read_sql(sql_script, conn)
+
+report.to_csv("outputs/report.csv", index=False)

@@ -1,3 +1,10 @@
-# Ignore virtual environments
-.env
+# Virtual environments
 .venv
+
+# Credentials
+.env
+
+# Python-generated files
+outputs/
+.pytest_cache
+__pychace__/
