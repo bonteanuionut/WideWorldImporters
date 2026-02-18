@@ -23,7 +23,7 @@ conn = pyodbc.connect(
 )
 
 # Parse sql code
-with open(r"src\sql_scripts\world_wide_importers_report.sql", "r") as f:
+with open(r"src\sql_scripts\wide_world_importers_report.sql", "r") as f:
     sql_script = f.read()
 
 # Create the arguments parser

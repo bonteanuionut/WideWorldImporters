@@ -3,17 +3,17 @@ with wide_world_importers_report as (
 		sup_trans.SupplierID
 		,	sup.SupplierName
 		,	sup_trans.SupplierInvoiceNumber
-		,	cast(sup_trans.TransactionDate as date) as TransactionDate
+		,	cast(sup_trans.TransactionDate as date) as TransactionDate -- cast to date to avoid data type malfunction
 		,	sup_trans.AmountExcludingTax
 		,	case
 				when sup_trans.isFinalized = 1 then 'YES'
 				else 'NO'
-			end as isFinalized
+			end as isFinalized -- change from 1s and 0s to 'YES' and 'NO' to match the excel sample output
 		,	po.PurchaseOrderID
-		,	cast(po.OrderDate as date) as OrderDate
+		,	cast(po.OrderDate as date) as OrderDate -- cast to date to avoid data type malfunction
 		,	pol.PurchaseOrderLineID
 		,	pol.StockItemID
-		,	replace(pol.Description, '"', '') as Description
+		,	replace(pol.Description, '"', '') as Description -- remove double-quotes to match the excel sample output
 		,	pol.ReceivedOuters
 		,	pol.ExpectedUnitPricePerOuter
 	from
