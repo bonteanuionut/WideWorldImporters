@@ -10,4 +10,3 @@ outputs/*
 **/__pychace__/
 *.py[oc]
 **/*.csv
-**/*.xlsx
