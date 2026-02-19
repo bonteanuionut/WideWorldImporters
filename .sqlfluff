@@ -1,0 +1,26 @@
+[sqlfluff]
+templater = jinja
+dialect = tsql
+max_line_length = 120
+
+# Disable specific rules
+exclude_rules = CP02, ST06
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = False
+
+[sqlfluff:templater:jinja:context]
+# Arbitrary variables for testing
+transaction_type = 1
+transaction_month = 6
+transaction_year = 2000
+
+[sqlfluff:rules:capitalisation.keywords]
+# Keywords
+capitalisation_policy = lower
+
+[sqlfluff:layout:type:comma]
+line_position = leading
+
+[sqlfluff:indentation]
+indented_joins = True
