@@ -11,7 +11,8 @@ Throughout this document, I'm going to explain the setup I've used, why I used i
 3. [Getting started](#getting-started)
 4. [How to run this solution?](#how-to-solution)
 5. [Solution Logic - Explained](#solution-logic)
-6. [VS Code setup - In-depth](#vs-code-in-depth)
+6. [VS Code setup - Pros and Cons](#vs-code-in-depth)
+7. [Final Thoughts and Improvements](#improvements)
 
 ## Why use this setup? <a name="why-setup"></a>
 This probably looks a bit overwhelming given the requirements of the task(s), but I wanted to think a few steps ahead, challenge myself and interact with new concepts that I haven't really worked on too often, like packaging your own python module, doing "unit tests", implementing linters etc. I feel like this setup is closer to a real-world setup a Data Engineer might use, but at the end of the day it depends on the needs of the project. I wanted to combine multiple technologies to build something reliable, smart, not the most efficient for now, but I'll share my thoughts on improvements in the latest section
@@ -191,10 +192,32 @@ where rnk > 1
 ```
 We're using the <code>rnk > 1</code> so we only get what is a duplication of the records.
 
-## VS Code setup - In-depth <a name="vs-code-in-depth"></a>
+## VS Code setup - Pros and Cons <a name="vs-code-in-depth"></a>
 In this section, I'm going to present a few pros and cons.
 
+### Pros:
+- Facilitates testing using frameworks such as pytest
+- Easier to automate this process if it's necessary
+- The parameters can easily be changed
+- Email automation
+- Data pipelines orchestration
 
+### Cons:
+- This solution uses pandas to work with the data. In a real-world scenario, the result might be a lot bigger than a few hundreds of records, which would be impossible to work on a local environment
+- Connection to database can be slower due to the speed of fetching data from database
+- Performance issues overall using current framework
 
+A nice feature of this approach is the use of argparse library. This allows you to change the values of the where clause when you run the program. By default, the parameters are set to the correct value, so we can either run the .py script from IDE or use the following command:
+```
+python src/WideWorldImporters/python_scripts/export_wide_world_importers.py
+```
+Alternatively, we can also use <code></code> <code></code> <code></code> to overwrite these parameters from console, without altering the code.
+```
+python src/WideWorldImporters/python_scripts/export_wide_world_importers.py --trc-type 15 --trc-month 11 -trc-year 2015
+```
+## Final Thoughts and Improvements <a name="improvements"></a>
+I really enjoyed this assignment, even though at first glance might've looked easy to resolve. It was nice that I had to play around and use other technologies (assuming that I understood the assignment).
+As for improvements, the main thing I feel like I could've more worked on was on the tests. The initial tests on the provided sample passed, but I could've also picked random values for the parameters to test for other subsets of data, among many other things :D. 
 
+Hope that this document is useful, easy to understand and according to this assignment
 
