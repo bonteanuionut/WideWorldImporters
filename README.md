@@ -15,14 +15,77 @@ Before we get started, we need a few things: a Python version >= 3.13, an IDE an
 ## Getting started
 ### Step 1. Clone repository
 To do it you can:
-1. go to code, press on the arrow next to it, and copy the https link <img width="1714" height="873" alt="image" src="https://github.com/user-attachments/assets/b42bdeaa-f2fa-40a5-9c4c-e3b181222699" />
-2. within your IDE, open a new terminal and run this command ```bash git clone {insert_link_here}```
+1. Go to code, press on the arrow next to it, and copy the https link <img width="1714" height="873" alt="image" src="https://github.com/user-attachments/assets/b42bdeaa-f2fa-40a5-9c4c-e3b181222699" />
+2. Within your IDE, open a new terminal and run the below command. Make sure to clone it in the desired project location
+```
+git clone https://github.com/bonteanuionut/WideWorldImporters.git
+```
 
+### Step 2. Create a Virtual Environment (optional)
+This step is not really necessary but it's recommended, so the dependencies used for this project don't mess with your general setup of your Python.
+There are 2 approaches to create a venv (Virtual Environment)
+#### IDE approach
+1. Press ctrl+shift+p
+2. Type "create environment" and press the "Python: Create Environment..." option
+3. Choose the version of your interpreter. Job done!
+#### CLI approach
+1. Within your terminal type
+```
+# at the project root
+py -3.13 -m venv .venv
+```
+2. Activate the venv
+```
+.\.venv\Scripts\activate
+```
+Note that -3.13 has been used to specify the version of the Python to use.
+
+### Step 3. Install the necessary libraries.
+To do that you can simply use the command below
+```
+pip install -e .
+```
+This will look at the pyproject.toml and install everything you need to run this project.
+You also use the command below to install additional libraries that will help you format your code, test the code, etc. For more details, please refer to <code>pyproject.toml</code> file
+```
+pip install -e .[dev]
+```
+Note that you have to be inside the directory of the project you've cloned in order to run the commands above.
+
+Now that we have the setup done, let's get to the solution of this assignment.
+
+## Solution
+There 2 approaches to run this solution. You can either use MSSQL or the actual setup and run the .py scripts to get the desired results
+### MSSQL approach
+To use it this approach, copy the sql code from src -> WideWorldImporters -> wide_world_importers_report.sql (that is the main task) or src -> WideWorldImporters -> purchase_orders_deduplication.sql (the bonus task), enter in your SQL editor (I use <code>SQL Server Management Studio 20</code>) and you can also download it from [here](https://learn.microsoft.com/en-us/ssms/install/install), pass in the required information. In our case we set:
+- Server type: Database Engine
+- Server name: {server-name}
+- Authentication: SQL Server Authentication
+- Login: {username}
+- Password: {password}
+
+After you've logged in, we can right-click on the WideWorldImporters (the database we're using) and New Query
+<img width="604" height="526" alt="image" src="https://github.com/user-attachments/assets/23ed0ce1-51d6-45e7-a358-7e7e0b73063b" />
+
+Now you can paste your SQL code and run it. Note that the current SQL uses jinja template (basically every notation that is between curly brackets). If you're running in the MSSQL, remove everything that is between <code>{{}}</code> and replace with the values in the comments section.
+
+### VS Code approach
+Within the current setup, we can simply open the terminal and run the following command for the main task
+```
+python src/WideWorldImporters/python_scripts/export_purchase_orders_duplicates.py
+```
+Or for the bonus task:
+```
+python src/WideWorldImporters/python_scripts/export_wide_world_importers.py
+```
+
+We can check the results in the <code>outputs</code> folder.
 
 ## Dataset Description
 WideWorldImporters is a fictitious wholesale novelty goods importer and distributor based in San Francisco, designed by Microsoft to serve as a comprehensive sample database for SQL Server and Azure SQL Database. It demonstrates modern database capabilities, including transactional (OLTP) and analytical (OLAP) processing, with data covering sales, purchasing, and warehouse operations. For more details you can access the [Technical Documentation](https://docs.microsoft.com/en-us/sql/samples/wide-world-importers-oltp-database-catalog?view=sql-server-ver15).
 
-During this assignment, we will only be working with Purchasing database. We are mainly interested in extracting transactions so to better understand the schema we are working with, consult the image below that shows the relational diagram of the used tables. 
+During this assignment, we will only be working with Purchasing database. We are mainly interested in extracting transactions so to better understand the schema we are working with, consult the image below that shows the relational diagram of the used tables.
 <img width="1866" height="1090" alt="image" src="https://github.com/user-attachments/assets/34bdf99f-527b-4f9d-a06c-1a959810499c" />
+
 
 
