@@ -9,6 +9,9 @@ Throughout this document, I'm going to explain the setup I've used, why I used i
 1. [Why use this setup?](#why-setup)
 2. [Prerequisites](#prerequisites)
 3. [Getting started](#getting-started)
+4. [How to run this solution?](#how-to-solution)
+5. [Solution Logic - Explained](#solution-logic)
+6. [VS Code setup - In-depth](#vs-code-in-depth)
 
 ## Why use this setup? <a name="why-setup"></a>
 This probably looks a bit overwhelming given the requirements of the task(s), but I wanted to think a few steps ahead, challenge myself and interact with new concepts that I haven't really worked on too often, like packaging your own python module, doing "unit tests", implementing linters etc. I feel like this setup is closer to a real-world setup a Data Engineer might use, but at the end of the day it depends on the needs of the project. I wanted to combine multiple technologies to build something reliable, smart, not the most efficient for now, but I'll share my thoughts on improvements in the latest section
@@ -58,7 +61,7 @@ Note that you have to be inside the directory of the project you've cloned in or
 
 Now that we have the setup done, let's get to the solution of this assignment.
 
-## Solution
+## How to run this solution? <a name="how-to-solution"></a>
 There 2 approaches to run this solution. You can either use MSSQL or the actual setup and run the .py scripts to get the desired results
 ### MSSQL approach
 To use it this approach, copy the sql code from src -> WideWorldImporters -> wide_world_importers_report.sql (that is the main task) or src -> WideWorldImporters -> purchase_orders_deduplication.sql (the bonus task), enter in your SQL editor (I use <code>SQL Server Management Studio 20</code>) and you can also download it from [here](https://learn.microsoft.com/en-us/ssms/install/install), pass in the required information. In our case we set:
@@ -97,15 +100,75 @@ To run the tests we can use this command:
 pytest tests/test_wide_world_importers.py 
 ```
 
-## Solution Logic
+## Solution Logic - Explained <a name="solution-logic"></a>
 ### Dataset Description
 WideWorldImporters is a fictitious wholesale novelty goods importer and distributor based in San Francisco, designed by Microsoft to serve as a comprehensive sample database for SQL Server and Azure SQL Database. It demonstrates modern database capabilities, including transactional (OLTP) and analytical (OLAP) processing, with data covering sales, purchasing, and warehouse operations. For more details you can access the [Technical Documentation](https://docs.microsoft.com/en-us/sql/samples/wide-world-importers-oltp-database-catalog?view=sql-server-ver15).
 
 During this assignment, we will only be working with Purchasing database. We are mainly interested in extracting transactions so to better understand the schema we are working with, consult the image below that shows the relational diagram of the used tables.
 <img width="1866" height="1090" alt="image" src="https://github.com/user-attachments/assets/34bdf99f-527b-4f9d-a06c-1a959810499c" />
 
-## VS Code setup - In-depth
-The reason I chose this approach is because it makes easier to test the results and potentially automate this process. In this section, I'm going to present a few pros and cons.
+### Way of thinking - Main task
+To be honest, it was more like a "reverse-engineering" kind of approach. Based on the sample output provided I started to build the query. The first thing I did was to draw the diagram, which helped a lot in identifying how to perform the correct joins. Next thing I did was to write the joins (inner joins in our case), then added the filters and in the end I wrote the select statement, grabbing the necessary columns. The filter was done on:
+- TransactionTypeID = 5
+- month(sup_trans.TransactionDate) = 11 -- this extracts the month from the transaction date and eheck if it equals to 11
+- year(sup_trans.TransactionDate) = 2015 -- same as month, but for year
+
+In the select statement, I also applied some transformations so that it replicates exactly the test output.
+1. I used cast on dates to make sure they are of type date.
+2. I replaced the isFinalised column with "YES" and "NO" values using a case statement (1="YES", 0="NO")
+3. For the Description column I removed the double-quotes. 
+
+The tests run successfully in Python
+
+<img width="1440" height="207" alt="image" src="https://github.com/user-attachments/assets/31b59c96-7372-4753-95e9-971a68ef1e5c" />
+
+There are 5 tests that are performing:
+<details>
+<summary>1. It checks the number of rows in each outputs.</summary>
+<pre>
+  def test_counts(sample_output, actual_output):
+    sample_counts = len(sample_output)
+    actual_counts = len(actual_output)
+    assert sample_counts == actual_counts, f"Sample counts: {sample_counts} vs Actual counts: {actual_counts}"
+</pre>
+</details>
+<details>
+<summary>2. It checks if both datasets have the same number of columns.</summary>
+<pre>
+  def test_number_of_columns(sample_output, actual_output):
+    sample_columns = len(sample_output.columns)
+    actual_columns = len(actual_output.columns)
+    assert sample_columns == actual_columns, f"Sample number of columns: {sample_columns} vs number of columns: {actual_columns}"
+</pre>
+</details>
+<details>
+<summary>3. Test if they have the same schema (data types).</summary>
+<pre>
+  def test_schema(sample_output, actual_output):
+    data_types_check = (sample_output.dtypes.sort_index() == actual_output.dtypes.sort_index())
+    assert len(data_types_check.loc[data_types_check == False].index.to_list()) == 0, "Different data types"
+</pre>
+</details>
+<details>
+<summary>4. Check if they have the same name of columns.</summary>
+<pre>
+  def test_column_is_same(sample_output, actual_output):
+    sample_columns = sorted(sample_output.columns)
+    actual_columns = sorted(actual_output.columns)
+    assert sample_columns == actual_columns, "Different columns"
+</pre>
+</details>
+<details>
+<summary>5. Compare the two tables.</summary>
+<pre>
+  def test_is_same(sample_output, actual_output):
+    assert actual_output.equals(sample_output), "The two dataframes differ"
+</pre>
+</details>
+
+## VS Code setup - In-depth <a name="vs-code-in-depth"></a>
+In this section, I'm going to present a few pros and cons.
+
 
 
 
