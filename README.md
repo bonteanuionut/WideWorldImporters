@@ -5,6 +5,8 @@ The primary goal is to extract data for reporting purposes from a fictional whol
 By leveraging the classic Microsoft sample database, Wide World Importers (OLTP), this project demonstrates a modern data workflow. It extracts transactional data from the operational database, performs transformations to clean and structure the data for analysis. The focus is specifically on the purchasing domain, utilizing tables related to purchase orders, suppliers, and financial transactions.
 
 Throughout this document, I'm going to explain the setup I've used, why I used it, how you can achieve the same setup and, most importantly, the logic for the main task and for the bonus task.
+## Table of contents
+1. [Why use this setup?](https://github.com/bonteanuionut/WideWorldImporters/edit/master/README.md#prerequisites)
 
 ## Why use this setup?
 This probably looks a bit overwhelming given the requirements of the task(s), but I wanted to think a few steps ahead, challenge myself and interact with new concepts that I haven't really worked on too often, like packaging your own python module, doing "unit tests", implementing linters etc. I feel like this setup is closer to a real-world setup a Data Engineer might use, but at the end of the day it depends on the needs of the project. I wanted to combine multiple technologies to build something reliable, smart, not the most efficient for now, but I'll share my thoughts on improvements in the latest section
