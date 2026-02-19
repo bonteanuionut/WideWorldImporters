@@ -108,7 +108,7 @@ During this assignment, we will only be working with Purchasing database. We are
 <img width="1866" height="1090" alt="image" src="https://github.com/user-attachments/assets/34bdf99f-527b-4f9d-a06c-1a959810499c" />
 
 ### Way of thinking - Main task
-To be honest, it was more like a "reverse-engineering" kind of approach. Based on the sample output provided I started to build the query. The first thing I did was to draw the diagram, which helped a lot in identifying how to perform the correct joins. Next thing I did was to write the joins (inner joins in our case), then added the filters and in the end I wrote the select statement, grabbing the necessary columns. The filter was done on:
+To be honest, it was more like a "reverse-engineering" kind of approach. Based on the sample output provided I started to build the query. The first thing I did was to draw the diagram, which helped a lot in identifying how to perform the correct joins. Next thing I did was to write the joins (inner joins in our case), then added the filters and in the end I wrote the select statement, grabbing the necessary columns. The filter was done on the following columns from the <code>SupplierTransactions</code> table:
 - TransactionTypeID = 5
 - month(sup_trans.TransactionDate) = 11 -- this extracts the month from the transaction date and eheck if it equals to 11
 - year(sup_trans.TransactionDate) = 2015 -- same as month, but for year
@@ -166,8 +166,34 @@ There are 5 tests that are performing:
 </pre>
 </details>
 
+For the whole code, please refer the .sql file from <code>src/WideWorldImporters/sql_scripts/wide_world_importers_report.sql</code>
+
+### Way of thinking - Bonus task
+The goal of this task was to perform a query that returns the duplicates from <code>PurchaseOrders</code> table <code>Purchasing</code> schema. This was fairly easy to perform: the main hint was that a duplicate was a combination of <code>SupplierID</code>, <code>SupplierReference</code> and <code>OrderDate</code> columns. So that bit was easy to replicate with a <code>row_number()</code> function.
+```
+row_number() over (
+            partition by SupplierID, SupplierReference, OrderDate
+        )
+```
+But now we need something to order by. In the state above, it identifies the duplicates, but we don't know for sure which one to keep. For this, we're going to use the order by clause on <code>LastEditedWhen</code> column.
+```
+row_number() over (
+            partition by SupplierID, SupplierReference, OrderDate
+            order by LastEditedWhen
+        ) as rnk
+```
+We can plug this piece of code into a CTE (Common Table Expression), selecting all columns from PurchaseOrders, along with this newly created column that assigns a number for each duplicate (original including). A value of "1" means that particular row was the first one inserted with that combination of IDs, the rest of records up to nth rank are duplicates.
+The final select looks like this
+```
+select *
+from purchase_orders_ranking -- name of the cte
+where rnk > 1
+```
+We're using the <code>rnk > 1</code> so we only get what is a duplication of the records.
+
 ## VS Code setup - In-depth <a name="vs-code-in-depth"></a>
 In this section, I'm going to present a few pros and cons.
+
 
 
 
