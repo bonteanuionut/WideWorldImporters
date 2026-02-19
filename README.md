@@ -70,6 +70,14 @@ After you've logged in, we can right-click on the WideWorldImporters (the databa
 Now you can paste your SQL code and run it. Note that the current SQL uses jinja template (basically every notation that is between curly brackets). If you're running in the MSSQL, remove everything that is between <code>{{}}</code> and replace with the values in the comments section.
 
 ### VS Code approach
+Before running the main py scripts we need to add the .env configuration file. This ensures that the server_connection function can actually grab the necessary credentials it needs to connect to the server. Here's how it should look like:
+```
+DB_SERVER = {replace-with-server-address}
+DB_NAME = "WideWorldImporters"
+DB_USER = {replace-with-username}
+DB_PASSWORD = {replace-with-password}
+```
+Make sure to keep the variable name as they are. The function will look at the exact names. You can save the <code>.env</code> in your root directory.
 Within the current setup, we can simply open the terminal and run the following command for the main task
 ```
 python src/WideWorldImporters/python_scripts/export_purchase_orders_duplicates.py
@@ -79,13 +87,20 @@ Or for the bonus task:
 python src/WideWorldImporters/python_scripts/export_wide_world_importers.py
 ```
 
-We can check the results in the <code>outputs</code> folder.
+We can check the results in the <code>outputs</code> folder. Alternatively, we can use the <code>pytest</code> framework to test the output. What this framework does is to look at the sample output (which you will find it at tests -> fixtures -> invoiceReportNovember2015.xlsx) and compare with our results.
+To run the tests we can use this command:
+```
+pytest tests/test_wide_world_importers.py 
+```
 
-## Dataset Description
+## Solution Logic
+### Dataset Description
 WideWorldImporters is a fictitious wholesale novelty goods importer and distributor based in San Francisco, designed by Microsoft to serve as a comprehensive sample database for SQL Server and Azure SQL Database. It demonstrates modern database capabilities, including transactional (OLTP) and analytical (OLAP) processing, with data covering sales, purchasing, and warehouse operations. For more details you can access the [Technical Documentation](https://docs.microsoft.com/en-us/sql/samples/wide-world-importers-oltp-database-catalog?view=sql-server-ver15).
 
 During this assignment, we will only be working with Purchasing database. We are mainly interested in extracting transactions so to better understand the schema we are working with, consult the image below that shows the relational diagram of the used tables.
 <img width="1866" height="1090" alt="image" src="https://github.com/user-attachments/assets/34bdf99f-527b-4f9d-a06c-1a959810499c" />
 
+## VS Code setup - In-depth
+The reason I chose this approach is because it makes easier to test the results and potentially automate this process. In this section, I'm going to present a few pros and cons.
 
 
