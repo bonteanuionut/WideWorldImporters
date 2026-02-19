@@ -13,7 +13,10 @@ This probably looks a bit overwhelming given the requirements of the task(s), bu
 Before we get started, we need a few things: a Python version >= 3.13, an IDE and git. I don't believe we really need one of the latest versions of Python, but at the time I've worked on this assignment I had this version installed, so you should download and install the same requirements. Please check the official [Python website](https://www.python.org/) for more details on how to download and install it. For IDE, you can choose whatever IDE you want. I've used VS Code since I'm used to it. I'll leave the link to VS Code in case you want to use it as well: [VS Code](https://code.visualstudio.com/). Same thing for [git](https://git-scm.com/install/windows). Quick note: I work on Windows, so make sure to adapt this documentation according to your own OS.
 
 ## Getting started
-### Step 1. Clone this repository.
+### Step 1. Clone repository
+To do it you can:
+1. go to code, press on the arrow next to it, and copy the https link <img width="1714" height="873" alt="image" src="https://github.com/user-attachments/assets/b42bdeaa-f2fa-40a5-9c4c-e3b181222699" />
+2. within your IDE, open a new terminal and run this command ```bash git clone {insert_link_here}```
 
 
 ## Dataset Description
@@ -21,4 +24,5 @@ WideWorldImporters is a fictitious wholesale novelty goods importer and distribu
 
 During this assignment, we will only be working with Purchasing database. We are mainly interested in extracting transactions so to better understand the schema we are working with, consult the image below that shows the relational diagram of the used tables. 
 <img width="1866" height="1090" alt="image" src="https://github.com/user-attachments/assets/34bdf99f-527b-4f9d-a06c-1a959810499c" />
+
 
