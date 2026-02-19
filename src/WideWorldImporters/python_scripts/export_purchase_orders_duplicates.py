@@ -15,4 +15,5 @@ purchase_orders_deduplication_df.to_excel(
     "outputs/purchase_orders_deduplication.xlsx", index=False
 )
 
+# Close the connection to the server
 conn.close()

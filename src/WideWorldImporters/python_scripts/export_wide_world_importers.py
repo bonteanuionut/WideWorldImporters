@@ -8,21 +8,25 @@ conn = server_connect()
 
 # Create the arguments parser
 parser = argparse.ArgumentParser(
-                    prog="WideWorldImporters",
-                    description="Query the Purchasing schema fromm WideWorldImporters to replicate the report in tests/fixtures"
-                )
+    prog="WideWorldImporters",
+    description="Query the Purchasing schema fromm WideWorldImporters to replicate the report in tests/fixtures",
+)
 
 
 # Add arguments
-parser.add_argument("--trc-type", default=5, type = int, help = "Transaction type")
-parser.add_argument("--trc-month", default=11, type = int, help = "Transaction month (e.g.: 1, 2, ... 12)")
-parser.add_argument("--trc-year", default=2015, type = int, help = "Transaction year")
+parser.add_argument("--trc-type", default=5, type=int, help="Transaction type")
+parser.add_argument(
+    "--trc-month", default=11, type=int, help="Transaction month (e.g.: 1, 2, ... 12)"
+)
+parser.add_argument("--trc-year", default=2015, type=int, help="Transaction year")
 
 # Grab arguments
 args = parser.parse_args()
 
 # Parse sql code
-with open(r"src\WideWorldImporters\sql_scripts\wide_world_importers_report.sql", "r") as f:
+with open(
+    r"src\WideWorldImporters\sql_scripts\wide_world_importers_report.sql", "r"
+) as f:
     sql_template = Template(f.read())
 
 # Assign arguments to be used in the sql script
@@ -37,4 +41,5 @@ report = pd.read_sql(sql_query, conn)
 # Save the result to an excel file
 report.to_excel("outputs/report.xlsx", index=False)
 
+# Close connection to the server
 conn.close()
