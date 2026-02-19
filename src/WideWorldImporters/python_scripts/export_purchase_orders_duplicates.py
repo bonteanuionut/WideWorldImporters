@@ -1,5 +1,6 @@
 import pandas as pd
 from WideWorldImporters.utils.mssql_connection import server_connect
+import os
 
 # Create connection to MSSQL
 conn = server_connect()
@@ -11,6 +12,8 @@ with open(
     sql_script = f.read()
 
 purchase_orders_deduplication_df = pd.read_sql(sql_script, conn)
+
+os.makedirs("outputs", exist_ok=True)
 purchase_orders_deduplication_df.to_excel(
     "outputs/purchase_orders_deduplication.xlsx", index=False
 )

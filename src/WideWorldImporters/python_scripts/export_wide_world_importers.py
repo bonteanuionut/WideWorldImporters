@@ -2,6 +2,7 @@ import pandas as pd
 import argparse
 from WideWorldImporters.utils.mssql_connection import server_connect
 from jinja2 import Template
+import os
 
 # Create connection to MSSQL
 conn = server_connect()
@@ -39,6 +40,7 @@ sql_query = sql_template.render(
 report = pd.read_sql(sql_query, conn)
 
 # Save the result to an excel file
+os.makedirs("outputs", exist_ok=True)
 report.to_excel("outputs/report.xlsx", index=False)
 
 # Close connection to the server
