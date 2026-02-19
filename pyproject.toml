@@ -3,4 +3,13 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
+name = "WideWorldImporters"
 requires-python = ">= 3.13"
+dependencies = [
+  "pandas",
+  "dotenv",
+  "pyodbc",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

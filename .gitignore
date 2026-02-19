@@ -10,3 +10,7 @@ outputs/*
 **/__pychace__/
 *.py[oc]
 **/*.csv
+build/
+dist/
+wheels/
+*.egg-info
