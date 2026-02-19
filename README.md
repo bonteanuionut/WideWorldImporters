@@ -54,7 +54,7 @@ To do that you can simply use the command below
 pip install -e .
 ```
 This will look at the pyproject.toml and install everything you need to run this project.
-You also use the command below to install additional libraries that will help you format your code, test the code, etc. For more details, please refer to <code>pyproject.toml</code> file
+You can also use the command below to install additional libraries that will help you format your code, test the code, etc. For more details, please refer to <code>pyproject.toml</code> file
 ```
 pip install -e .[dev]
 ```
@@ -100,6 +100,7 @@ To run the tests we can use this command:
 ```
 pytest tests/test_wide_world_importers.py 
 ```
+The general idea of this solution is to parse the sql script as a string, use pandas to run the query and save the data in an excel file that can further be sent to the stakeholders let's say. A big advantage of this setup is we make use of the <code>argparse</code> library. Within the sql files, we'll some notations between curly brackets. Those are placeholders, so we can dinamycally change the values, without altering the code. We can pass desired values for the <code>where</code> clause at runtime. But for this assignment, by default, they are set according to the requirements. But that's just the flexibility this approach offers to the user.
 
 ## Solution Logic - Explained <a name="solution-logic"></a>
 ### Dataset Description
@@ -220,4 +221,5 @@ I really enjoyed this assignment, even though at first glance might've looked ea
 As for improvements, the main thing I feel like I could've more worked on was on the tests. The initial tests on the provided sample passed, but I could've also picked random values for the parameters to test for other subsets of data, among many other things :D. 
 
 Hope that this document is useful, easy to understand and according to this assignment
+
 
