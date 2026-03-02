@@ -212,14 +212,15 @@ A nice feature of this approach is the use of argparse library. This allows you 
 ```
 python src/WideWorldImporters/python_scripts/export_wide_world_importers.py
 ```
-Alternatively, we can also use <code></code> <code></code> <code></code> to overwrite these parameters from console, without altering the code.
+Alternatively, we can also use <code>--trc-type</code><code>--trc-month</code> <code>--trc-year</code> to overwrite these parameters from console, without altering the code.
 ```
-python src/WideWorldImporters/python_scripts/export_wide_world_importers.py --trc-type 15 --trc-month 11 -trc-year 2015
+python src/WideWorldImporters/python_scripts/export_wide_world_importers.py --trc-type 15 --trc-month 11 --trc-year 2015
 ```
 ## Final Thoughts and Improvements <a name="improvements"></a>
 I really enjoyed this assignment, even though at first glance might've looked easy to resolve. It was nice that I had to play around and use other technologies (assuming that I understood the assignment).
 As for improvements, the main thing I feel like I could've more worked on was on the tests. The initial tests on the provided sample passed, but I could've also picked random values for the parameters to test for other subsets of data, among many other things :D. 
 
 Hope that this document is useful, easy to understand and according to this assignment
+
 
 
